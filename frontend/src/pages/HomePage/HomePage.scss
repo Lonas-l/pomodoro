@@ -1,0 +1,63 @@
+@import "../../scss/color";
+
+.homePage {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+  flex: 1 1 auto;
+  color: $red50;
+}
+
+.shortBreak {
+  color: $green50;
+  .raindrop {
+    background-color: $green900;
+  }
+}
+
+.longBreak {
+  color: $blue50;
+  .raindrop {
+    background-color: $blue900;
+  }
+}
+
+.raindrop {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 10px;
+  background-color: $red900;
+  animation: raindrop 0.1s linear infinite;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.settingsBlock {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    opacity: 0.3;
+    overflow: hidden;
+    content: "";
+  }
+}
+
+@keyframes raindrop {
+  to {
+    transform: translateY(99vh);
+  }
+}

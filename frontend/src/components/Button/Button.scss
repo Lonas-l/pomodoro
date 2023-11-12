@@ -1,0 +1,65 @@
+@import "../../scss/color";
+
+.longBreak {
+  path {
+    fill: $blue900;
+  }
+}
+.shortBreak {
+  path {
+    fill: $green900;
+  }
+}
+.pomodoro {
+  path {
+    fill: $red900;
+  }
+}
+
+.primary {
+  &.longBreak {
+    background: $blueAlpha700;
+  }
+  &.shortBreak {
+    background: $greenAlpha700;
+  }
+  &.pomodoro {
+    background: $redAlpha700;
+  }
+}
+
+.secondary {
+  padding: 25px;
+  width: 80px;
+  height: 80px;
+  border-radius: 25px;
+
+  &.longBreak {
+    background: $blueAlpha100;
+  }
+  &.shortBreak {
+    background: $greenAlpha100;
+  }
+  &.pomodoro {
+    background: $redAlpha100;
+  }
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.2) contrast(150%) ;
+    path {
+      transition: 0.3s all;
+      fill: white;
+    }
+  }
+
+  &:disabled {
+    background: grey;
+  }
+}

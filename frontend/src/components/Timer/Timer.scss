@@ -1,0 +1,47 @@
+.time {
+    font-size: 256px;
+    margin: 0;
+    line-height: 0.8em;
+    user-select: none;
+    font-weight: 500;
+}
+
+.paused {
+    animation: changeFontWeightToLow;
+    animation-duration: 0.3s;
+    font-weight: 200;
+}
+
+.resume {
+    animation: changeFontWeightToBig;
+    animation-duration: 0.3s;
+    font-weight: 900;
+}
+
+@media screen and (max-height: 767px) {
+    .homePage {
+        gap: 10px;
+    }
+    .time {
+        font-size: 200px;
+    }
+}
+
+
+@keyframes changeFontWeightToLow {
+    from {
+        font-weight: 900;
+    }
+    to {
+        font-weight: 200;
+    }
+}
+
+@keyframes changeFontWeightToBig {
+    from {
+        font-weight: 200;
+    }
+    to {
+        font-weight: 900;
+    }
+}

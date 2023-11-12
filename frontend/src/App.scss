@@ -1,0 +1,30 @@
+@import "./scss/color";
+
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: $red50;
+  .toast {
+    .Toastify__toast-theme--dark {
+      background: $greenAlpha700;
+      color: white;
+      border: 2px solid $green900;
+      border-radius: 25px;
+    }
+    .Toastify__close-button {
+      padding: 5px;
+      border-radius: 40%;
+      height: 30px;
+      width: 30px;
+    }
+    svg {
+      fill: white
+    }
+    .Toastify__toast--error {
+      background: $redAlpha800;
+    }
+
+  }
+}

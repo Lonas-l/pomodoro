@@ -1,0 +1,172 @@
+@import "../../scss/color";
+
+.pomodoro {
+  color: $red900;
+  background: $red50;
+  border: 2px solid $red900;
+
+  .slider:before {
+    background: $red50;
+  }
+
+  input:checked + .slider {
+    background-color: $red900;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $red900;
+  }
+
+}
+
+.shortBreak {
+  color: $green900;
+  background: $green50;
+  border: 2px solid $green900;
+
+  .slider:before {
+    background: $green50;
+  }
+
+  input:checked + .slider {
+    background-color: $green900;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $green900;
+  }
+}
+
+.longBreak {
+  color: $blue900;
+  background: $blue50;
+  border: 2px solid $blue900;
+
+  .slider:before {
+    background: $blue50;
+  }
+
+  input:checked + .slider {
+    background-color: $blue900;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $blue900;
+  }
+}
+
+.settingsModal {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 300px;
+  max-width: 500px;
+  width: 100%;
+  height: 500px;
+  z-index: 100;
+  border-radius: 25px;
+  opacity: 1;
+  animation-name: modalAppear;
+  animation-duration: 0.3s;
+  padding: 20px 10px;
+  box-sizing: border-box;
+
+  .settingsTitle {
+    margin: 0;
+  }
+  .buttonsBlock {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0 10px;
+    flex: 1 1 auto;
+
+    .closeModalButton {
+      background: $redAlpha700;
+      flex: 1 1 auto;
+      font-size: 28px;
+      height: fit-content;
+      padding: 5px;
+    }
+
+    .saveModalButton {
+      background: $greenAlpha700;
+      flex: 1 1 auto;
+      font-size: 28px;
+      height: fit-content;
+      padding: 5px;
+    }
+  }
+
+
+  .checkbox {
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px;
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+}
+
+.timeBlock {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;}
+  to {
+    opacity: 1;}
+}

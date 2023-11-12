@@ -1,0 +1,37 @@
+@import "../../../scss/color";
+
+.inputSettingsBlock {
+    display: flex;
+    width: 100%;
+    gap: 5px;
+    justify-content: space-between;
+    height: 25px;
+
+    .inputSettings {
+        max-width: 200px;
+        padding: 0 10px;
+        border-radius: 10px;
+        background: $red50;
+    }
+}
+
+.pomodoroInput {
+    .inputSettings {
+        background: $red50;
+        border: 2px solid $red900;
+    }
+}
+
+.shortBreakInput {
+    .inputSettings {
+        background: $green50;
+        border: 2px solid $green900;
+    }
+}
+
+.longBreakInput {
+    .inputSettings {
+        background: $blue50;
+        border: 2px solid $blue900;
+    }
+}
