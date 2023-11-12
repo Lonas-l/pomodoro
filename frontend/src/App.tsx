@@ -11,7 +11,6 @@ import {DEFAULT_USER_SETTINGS, TOAST_SETTINGS} from "./constants/constants";
 import {getUser, verifyToken} from "./service/authService";
 
 function App() {
-
     let navigate = useNavigate();
     const [user, setUser] = useState<any>({});
     const token = localStorage.getItem("accessToken") || "";

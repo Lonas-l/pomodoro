@@ -7,7 +7,6 @@ import {getUser} from "../../service/authService";
 interface HeaderProps {
     token: string
 }
-
 function Header({token}: HeaderProps) {
 
     const [isUserMenuDropdown, setIsUserMenuDropdown] = useState<boolean>(false);
@@ -15,7 +14,7 @@ function Header({token}: HeaderProps) {
     const [userName, setUserName] = useState<string>('')
 
     useEffect(() => {
-        getUser(token).then(r => setUserName(r.username));
+        getUser(token).then((data) => setUserName(data?.username));
     }, []);
 
     const logOut = () => {
@@ -28,7 +27,7 @@ function Header({token}: HeaderProps) {
         <header className={"header"}>
             <LogoSVG/>
             <div className={"userBlock"}>
-                <p className={"userName"} onClick={() => setIsUserMenuDropdown(!isUserMenuDropdown)}>{userName}</p>
+                <p className={"userName"} onClick={() => setIsUserMenuDropdown(!isUserMenuDropdown)}>{userName ? userName : 'qwe'}</p>
                 {isUserMenuDropdown &&
                     <div className={"userMenuDropdown"}>
                         <Button className={"menuButton"} variant={"secondary"} mode={"pomodoro"} onClick={logOut}>

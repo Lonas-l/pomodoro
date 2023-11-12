@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import {ToastContainer, toast} from "react-toastify";
 import {TOAST_SETTINGS} from "../../constants/constants";
+import {auth} from "../../service/authService";
 
 interface AuthProps {
     mode: "login" | "registration";
@@ -45,38 +46,6 @@ function AuthPage({mode, onLoginSuccess}: AuthProps) {
 
     });
 
-    const login = async (values: FormValues) => {
-        try {
-            const response = await axios.post("http://localhost:8081/auth/login", {
-                username: values.name,
-                password: values.password,
-            });
-            const token = response.data.token;
-            localStorage.setItem("accessToken", token);
-            onLoginSuccess();
-
-        } catch (error) {
-            toast.error("Error. Incorrect user name ot password", TOAST_SETTINGS);
-
-            console.error("Ошибка при входе", error);
-        }
-    };
-
-    const register = async (values: FormValues) => {
-        try {
-            const response = await axios.post("http://localhost:8081/auth/registration", {
-                username: values.name,
-                password: values.password,
-            });
-            toast.success("Registration Complete, you can authorize", TOAST_SETTINGS);
-            navigate("/login");
-
-        } catch (error) {
-            toast.error("Error. User already Exist", TOAST_SETTINGS);
-            console.error("Error: ", error);
-        }
-    };
-
     return (
         <Formik<FormValues>
             initialValues={{
@@ -86,33 +55,41 @@ function AuthPage({mode, onLoginSuccess}: AuthProps) {
             }}
             validationSchema={SignupSchema}
             onSubmit={(values: FormValues) => {
-                if (mode == "login") {
-                    login(values);
-                } else {
-                    register(values);
-                }
+                auth(mode, values).then((data) => {
+                        if (mode == 'registration') {
+                            toast.success("Registration Complete, you can authorize", TOAST_SETTINGS);
+                        }
+
+                        navigate(mode === "login" ? "/" : "/login");
+                        if (mode === "login") {
+                            onLoginSuccess();
+                            localStorage.setItem("accessToken", data?.token);
+                        }
+                    }
+                );
             }}
         >
             {({errors, touched, handleChange, values}: any) => (
                 <Form className={"auth"}>
+                    {mode}
                     <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="name">Name</label>
                         <Field className={"input"} placeholder={"Enter Your Name"} name="name"/>
-                        {mode === "registration" && errors.name && <div className={'error'}>{errors.name}</div>}
+                        {mode === "registration" && errors.name && <div className={"error"}>{errors.name}</div>}
                     </div>
 
                     <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="password">Password</label>
                         <Field className={"input"} type={"password"} placeholder={"Enter Your Password"}
                                name="password"/>
-                        {mode === "registration" && errors.password && <div className={'error'}>{errors.password}</div>}
+                        {mode === "registration" && errors.password && <div className={"error"}>{errors.password}</div>}
                     </div>
 
                     {mode === "registration" && <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="confirmPassword">Confirm Your Password</label>
                         <Field name="confirmPassword" type={"password"} placeholder={"Confirm Your Password"}
                                className={"input"}/>
-                        {errors.confirmPassword && <div className={'error'}>{errors.confirmPassword}</div>}
+                        {errors.confirmPassword && <div className={"error"}>{errors.confirmPassword}</div>}
                     </div>}
 
                     <Button disabled={errors.name || errors.password || errors.confirmPassword}
