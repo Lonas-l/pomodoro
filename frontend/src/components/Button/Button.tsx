@@ -9,12 +9,13 @@ interface ButtonProps {
     className: string;
     mode: string;
     type?: ButtonType;
-    disabled? : boolean
+    disabled? : boolean;
+    dataTestId? :string
 }
 
-const Button: React.FC<ButtonProps> = ({ className, onClick, children,variant, mode, type, disabled }) => {
+const Button: React.FC<ButtonProps> = ({ className, onClick, dataTestId, children,variant, mode, type, disabled }) => {
     return (
-        <button disabled={disabled} type={type} className={`${className} ${mode} ${variant === 'primary' ? 'primary' : 'secondary'}`} onClick={onClick}>
+        <button data-testid={dataTestId} disabled={disabled} type={type} className={`${className} ${mode} ${variant === 'primary' ? 'primary' : 'secondary'}`} onClick={onClick}>
             {children}
         </button>
     );

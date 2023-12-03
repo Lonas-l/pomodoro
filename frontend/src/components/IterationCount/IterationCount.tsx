@@ -9,7 +9,7 @@ const IterationCount: React.FC<IterationCountProps> = ({count}) => {
 
     if (count > 0) {
         return (
-            <span className={"iterationCount"}>
+            <span data-testId={'iterationCount'} className={"iterationCount"}>
                 Your iteration: {count}
             </span>
         );

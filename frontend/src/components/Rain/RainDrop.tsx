@@ -4,7 +4,7 @@ import {Raindrop} from "../../interface/Raindrop";
 
 const RainDrop = () => {
 
-    const [numberOfRaindrops, setNumberOfRaindrops] = useState(1000); // Настройте количество капель
+    const [numberOfRaindrops, setNumberOfRaindrops] = useState(1000);
     const [raindrops, setRaindrops] = useState<Raindrop[]>([]);
 
     function createRaindrop() {

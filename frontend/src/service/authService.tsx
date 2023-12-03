@@ -12,7 +12,7 @@ export const updateTimerSettings = async (token : string, settings: DEFAULT_USER
         });
         return response.data.message;
     } catch (error) {
-        console.error("Ошибка при обновлении настроек таймера:", error);
+        console.error("Error set settings:", error);
     }
 };
 export const getUser = async (token : string) => {
@@ -55,7 +55,7 @@ export const fetchTimerSettings = async (token : string) => {
         });
         return response.data;
     } catch (error) {
-        console.error("Ошибка при получении настроек таймера:", error);
+        console.error("Timer setting error", error);
         return null;
     }
 };
@@ -72,8 +72,8 @@ export const auth = async (mode: string, values: any) => {
         return response.data
     } catch (error) {
         if (mode === 'registration') {
-            toast.error("Error. User already Exist", TOAST_SETTINGS);
+            return toast.error("Error. User already Exist", TOAST_SETTINGS);
         }
-        console.error("Error: ", error);
+        toast.error("Error. User doesn't exist", TOAST_SETTINGS);
     }
 };

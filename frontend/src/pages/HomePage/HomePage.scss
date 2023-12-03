@@ -12,6 +12,12 @@
   color: $red50;
 }
 
+.loadingClass {
+  svg {
+    fill: $red900;
+  }
+}
+
 .shortBreak {
   color: $green50;
   .raindrop {

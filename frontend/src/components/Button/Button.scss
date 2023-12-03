@@ -61,5 +61,16 @@ button {
 
   &:disabled {
     background: grey;
+    cursor: auto;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+      filter: none ;
+      path {
+        transition: none;
+        fill: none;
+      }
+    }
   }
 }

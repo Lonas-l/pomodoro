@@ -34,16 +34,14 @@ function AuthPage({mode, onLoginSuccess}: AuthProps) {
             })
             .required("Required"),
         confirmPassword: Yup.string()
-            .test("confirm-password-validation", "Password must be the same", function (value: string | undefined) {
-                if (mode === "registration") {
-                    return Yup.string()
-                        .min(4)
-                        .max(32).required()
-                        .isValidSync(value);
+            .test("confirm-password-validation", "Password must be the same", function (value, context) {
+                if (mode === 'registration') {
+                    if (value !== context.parent.password) {
+                        return new Yup.ValidationError("Passwords must match", value, "confirmPassword");
+                    }
                 }
                 return true;
             })
-
     });
 
     return (
@@ -56,14 +54,15 @@ function AuthPage({mode, onLoginSuccess}: AuthProps) {
             validationSchema={SignupSchema}
             onSubmit={(values: FormValues) => {
                 auth(mode, values).then((data) => {
-                        if (mode == 'registration') {
+                        if (mode == "registration" && data) {
+                            navigate("/login");
                             toast.success("Registration Complete, you can authorize", TOAST_SETTINGS);
                         }
 
-                        navigate(mode === "login" ? "/" : "/login");
-                        if (mode === "login") {
+                        if (mode === "login" && data) {
                             onLoginSuccess();
                             localStorage.setItem("accessToken", data?.token);
+                            navigate(mode === "login" ? "/" : "/login");
                         }
                     }
                 );
@@ -71,38 +70,41 @@ function AuthPage({mode, onLoginSuccess}: AuthProps) {
         >
             {({errors, touched, handleChange, values}: any) => (
                 <Form className={"auth"}>
-                    {mode}
+                    <h3 className={"authTitle"}>{mode}</h3>
                     <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="name">Name</label>
-                        <Field className={"input"} placeholder={"Enter Your Name"} name="name"/>
+                        <Field className={"input"} placeholder={"Enter Your Name"} name="name" data-testid={'authName'}/>
                         {mode === "registration" && errors.name && <div className={"error"}>{errors.name}</div>}
                     </div>
 
                     <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="password">Password</label>
                         <Field className={"input"} type={"password"} placeholder={"Enter Your Password"}
-                               name="password"/>
+                               name="password" data-testid={'authPassword'}/>
                         {mode === "registration" && errors.password && <div className={"error"}>{errors.password}</div>}
                     </div>
 
                     {mode === "registration" && <div className={"inputSection"}>
                         <label className={"inputLabel"} htmlFor="confirmPassword">Confirm Your Password</label>
                         <Field name="confirmPassword" type={"password"} placeholder={"Confirm Your Password"}
-                               className={"input"}/>
+                               className={"input"} data-testid={'authConfirmPassword'}/>
                         {errors.confirmPassword && <div className={"error"}>{errors.confirmPassword}</div>}
                     </div>}
 
                     <Button disabled={errors.name || errors.password || errors.confirmPassword}
-                            className={"submitButton"} type="submit" mode={""}
+                            className={"submitButton"}  dataTestId={'authConfirmButton'} type="submit" mode={""}
                             variant={"secondary"}>
                         {mode == "login" ? "Log In" : "Registration"}
                     </Button>
 
                     <Button className={"button"} onClick={() => {
+                        values.password = '';
+                        values.confirmPassword = '';
+                        values.name = '';
                         if (mode === "login") navigate("/registration");
                         else navigate("/login");
                     }} mode={""} type={"button"}
-                            variant={"secondary"}>
+                            variant={"secondary"} dataTestId={'authChangeModeButton'}>
                         {mode == "login" ? "Registration" : "Log In"}
                     </Button>
 

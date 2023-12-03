@@ -36,18 +36,18 @@ const TimersButton: React.FC<TimersButtonProps> = ({
     return (
         <div className="buttons">
 
-            <Button className={"rewindButton"} onClick={openSettingModal}
+            <Button dataTestId={'settingsButton'} className={"rewindButton"} onClick={openSettingModal}
                     variant={"secondary"} mode={currentMode}>
                 <SettingsSVG/>
             </Button>
 
-            <Button className={"pomodoroButton"} onClick={pauseResume} variant={"primary"}
+            <Button dataTestId={'playPauseButton'} className={"pomodoroButton"} onClick={pauseResume} variant={"primary"}
                     mode={currentMode}>
                 {isPause && <PlaySVG/>}
                 {!isPause && <PauseSVG/>}
             </Button>
 
-            <Button className={"nextButton"} onClick={next} variant={"secondary"} mode={currentMode}>
+            <Button dataTestId={'nextButton'} className={"nextButton"} onClick={next} variant={"secondary"} mode={currentMode}>
                 <NextSVG/>
             </Button>
         </div>

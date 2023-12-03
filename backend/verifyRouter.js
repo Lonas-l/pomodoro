@@ -3,7 +3,7 @@ const router = new Router()
 const verifyToken = require('./verifyToken');
 
 router.get('/verify-token', verifyToken, (req, res) => {
-    res.json({ message: 'Доступ разрешен' });
+    res.json({ message: 'Access allow' });
 });
 
 module.exports = router

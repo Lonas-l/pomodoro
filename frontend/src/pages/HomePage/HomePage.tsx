@@ -8,6 +8,7 @@ import RainDrop from "../../components/Rain/RainDrop";
 import {fetchTimerSettings, updateTimerSettings} from "../../service/authService";
 import TimersButton from "../../components/TimersButton/TimersButton";
 import IterationCount from "../../components/IterationCount/IterationCount";
+import {Bars} from "react-loader-spinner";
 
 interface HomePageProps {
     timerSettings: DEFAULT_USER_SETTINGS_PROPS,
@@ -19,12 +20,15 @@ function HomePage({timerSettings, setTimerSettings, token}: HomePageProps) {
 
     const [isPause, setIsPause] = useState<boolean>(true);
     const [isSettingsActive, setIsSettingsActive] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const getSettings = () => {
         fetchTimerSettings(token)
             .then((settings) => {
                 if (settings) {
                     setTimerSettings(settings);
                 }
+                setIsLoading(false)
+                setIsSettingsActive(false)
             });
     };
     const next = () => {
@@ -48,6 +52,7 @@ function HomePage({timerSettings, setTimerSettings, token}: HomePageProps) {
         }, 0);
     };
     const updateSettings = async (settings: DEFAULT_USER_SETTINGS_PROPS) => {
+        setIsLoading(true);
         updateTimerSettings(token, settings).then(() => getSettings());
     };
 
@@ -59,36 +64,45 @@ function HomePage({timerSettings, setTimerSettings, token}: HomePageProps) {
 
     const [iterationCount, setIterationCount] = useState<number>(1);
 
-    return (
-        <div className={"homePage " + currentMode}>
+    if (isLoading) {
+        return <Bars
+            width="300"
+            height={"300"}
+            ariaLabel="bars-loading"
+            visible={true}
+            wrapperClass={"loadingClass"}
+        />;
+    } else {
+        return (
+            <div className={"homePage " + currentMode}>
 
-            {timerSettings.isRain && <RainDrop/>}
+                {timerSettings.isRain && <RainDrop/>}
 
-            {isSettingsActive &&
-                <div className={"settingsBlock"}>
-                    <Settings updateTimerSettings={updateSettings}
-                              timerSettings={timerSettings} currentMode={currentMode}
-                              setIsSettingsActive={setIsSettingsActive}/>
-                </div>}
-            <ModesBlock mode={currentMode}/>
+                {isSettingsActive &&
+                    <div className={"settingsBlock"}>
+                        <Settings updateTimerSettings={updateSettings}
+                                  timerSettings={timerSettings}
+                                  currentMode={currentMode}
+                                  setIsSettingsActive={setIsSettingsActive}/>
+                    </div>}
+                <ModesBlock mode={currentMode}/>
 
-            <Timer minutes={
-                currentMode == "pomodoro" ? +timerSettings.durationPomodoro : currentMode == "shortBreak" ? +timerSettings.shortBreakDuration : +timerSettings.longBreakDuration}
-                   mode={currentMode}
-                   isPause={isPause}
-                   setIsPause={setIsPause}
-                   next={next}
-                   isAutoStartBreaks={timerSettings.isAutoStartBreaks}
-                   isAutoStartPomodoro={timerSettings.isAutoStartPomodoro}
-                   isSoundEnabled={timerSettings.isSoundEnabled}
-            />
+                <Timer minutes={
+                    currentMode == "pomodoro" ? +timerSettings.durationPomodoro : currentMode == "shortBreak" ? +timerSettings.shortBreakDuration : +timerSettings.longBreakDuration}
+                       isPause={isPause}
+                       setIsPause={setIsPause}
+                       next={next}
+                       isSoundEnabled={timerSettings.isSoundEnabled}
+                />
 
-            <TimersButton currentMode={currentMode} isPause={isPause} setIsPause={setIsPause} next={next}
-                          setIsSettingsActive={setIsSettingsActive} isSettingsActive={isSettingsActive}/>
+                <TimersButton currentMode={currentMode} isPause={isPause} setIsPause={setIsPause} next={next}
+                              setIsSettingsActive={setIsSettingsActive} isSettingsActive={isSettingsActive}/>
 
-            <IterationCount count={iterationCount}/>
-        </div>
-    );
+                <IterationCount count={iterationCount}/>
+            </div>
+        );
+    }
+
 }
 
 export default HomePage;

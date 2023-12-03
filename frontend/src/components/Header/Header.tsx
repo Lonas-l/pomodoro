@@ -3,15 +3,17 @@ import "./Header.scss";
 import LogoSVG from "../SVGIcons/LogoSVG";
 import Button from "../Button/Button";
 import {getUser} from "../../service/authService";
+import {useNavigate} from "react-router-dom";
 
 interface HeaderProps {
-    token: string
+    token: string;
 }
+
 function Header({token}: HeaderProps) {
 
     const [isUserMenuDropdown, setIsUserMenuDropdown] = useState<boolean>(false);
 
-    const [userName, setUserName] = useState<string>('')
+    const [userName, setUserName] = useState<string>("");
 
     useEffect(() => {
         getUser(token).then((data) => setUserName(data?.username));
@@ -27,7 +29,8 @@ function Header({token}: HeaderProps) {
         <header className={"header"}>
             <LogoSVG/>
             <div className={"userBlock"}>
-                <p className={"userName"} onClick={() => setIsUserMenuDropdown(!isUserMenuDropdown)}>{userName ? userName : 'qwe'}</p>
+                <p className={"userName"}
+                   onClick={() => setIsUserMenuDropdown(!isUserMenuDropdown)}>{userName ? userName : "..."}</p>
                 {isUserMenuDropdown &&
                     <div className={"userMenuDropdown"}>
                         <Button className={"menuButton"} variant={"secondary"} mode={"pomodoro"} onClick={logOut}>
@@ -35,7 +38,6 @@ function Header({token}: HeaderProps) {
                         </Button>
                     </div>
                 }
-
             </div>
 
         </header>

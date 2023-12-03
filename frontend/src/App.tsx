@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
 import {Navigate, Route, Routes} from "react-router-dom";
@@ -76,6 +76,7 @@ function App() {
                 theme="dark"
                 className={"toast"}
                 limit={1}
+                data-testId={'toastNotification'}
             />
         </div>
     );

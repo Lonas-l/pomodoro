@@ -24,21 +24,25 @@ const Settings: React.FC<SettingsProps> = ({
         {
             label: "Pomodoro",
             value: initialSettings.durationPomodoro,
+            minValue: 0.01,
             setState: (value: string) => setInitialSettings({...initialSettings, durationPomodoro: value})
         },
         {
             label: "Short Break",
             value: initialSettings.shortBreakDuration,
+            minValue: 0.01,
             setState: (value: string) => setInitialSettings({...initialSettings, shortBreakDuration: value})
         },
         {
             label: "Long Break",
             value: initialSettings.longBreakDuration,
+            minValue: 0.01,
             setState: (value: string) => setInitialSettings({...initialSettings, longBreakDuration: value})
         },
         {
             label: "Long Break Interval",
             value: initialSettings.breakInterval,
+            minValue: 1,
             setState: (value: string) => setInitialSettings({...initialSettings, breakInterval: value})
         },
     ];
@@ -78,13 +82,14 @@ const Settings: React.FC<SettingsProps> = ({
                         mode={currentMode}
                         label={field.label}
                         value={+field.value}
+                        minValue={field.minValue}
                         onChange={(e) => field.setState(e.toString())}
                     />
                 ))}
             </div>
 
-            {checkboxFields.map((item) => (
-                <div className={"checkbox"}>
+            {checkboxFields.map((item, index) => (
+                <div key={index} className={"checkbox"}>
                     <p>{item.label}</p>
                     <label className="toggle-switch">
                         <input type="checkbox" checked={item.value} onChange={() => item.setState(!item.value)}/>
@@ -102,10 +107,10 @@ const Settings: React.FC<SettingsProps> = ({
                     Cancel
                 </Button>
 
-                <Button className={"saveModalButton"} mode={""} variant={"secondary"}
+                <Button disabled={initialSettings.longBreakDuration == '0' || initialSettings.shortBreakDuration == '0' || initialSettings.durationPomodoro == '0' || initialSettings.breakInterval == '0' } className={"saveModalButton"} mode={""} variant={"secondary"}
                         onClick={() => {
-                            updateTimerSettings(initialSettings).then(() => {});
-                            setIsSettingsActive(false);
+                            updateTimerSettings(initialSettings).then(() => {
+                            });
                         }}>
                     Save
                 </Button>
